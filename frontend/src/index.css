@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body{
+    height: 100vh;
+    background-color: rgb(179, 237, 218);
+    font-family: "Noto Sans Thai", sans-serif;
+}
