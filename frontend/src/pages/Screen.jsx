@@ -14,8 +14,7 @@ const Screen = () => {
       <NavBar />
       <Flex style={{ minHeight: "100vh" }} justify="center" align="center">
         <Form onFinish={handleSubmit}>
-        <Form.Item
-        >
+        <Form.Item>
 
         </Form.Item>
         </Form>

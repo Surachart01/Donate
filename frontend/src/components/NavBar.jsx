@@ -40,13 +40,13 @@ const NavBar = () => {
               className="menu menu-sm dropdown-content rounded-box z-[1] mt-5 w-80 p-2 shadow bg-[#0d9488] text-white "
             >
               <li>
-                <Link to='/'>
-                <button className="text-lg">ส่งข้อความขึ้นจอ</button>
+                <Link to="/">
+                  <button className="text-lg">ส่งข้อความขึ้นจอ</button>
                 </Link>
               </li>
               <li>
-                <Link to='/admin'>
-                <button className="text-lg">ติดต่อเรา</button>
+                <Link to="/admin">
+                  <button className="text-lg">ติดต่อเรา</button>
                 </Link>
               </li>
             </ul>
