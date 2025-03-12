@@ -8,7 +8,6 @@ function App() {
 
   return (
     <BrowserRouter>
-    <NavBar />
       <Routes>
         {/* Big screen */}
         <Route path='/' element={<Screen />} />
