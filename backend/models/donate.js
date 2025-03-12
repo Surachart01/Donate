@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export const donateSchema = new mongoose.Schema({
+const donateSchema = new mongoose.Schema({
     igName:{
         type: String,
         require: true
@@ -14,4 +14,6 @@ export const donateSchema = new mongoose.Schema({
         require : true
     }
 })
+
+export default mongoose.model("Donate",donateSchema)
 

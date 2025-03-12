@@ -8,4 +8,5 @@ app.use(cors())
 app.use(express.json())
 connectDB();
 
+
 export default app;
