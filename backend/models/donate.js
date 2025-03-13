@@ -20,7 +20,12 @@ const donateSchema = new mongoose.Schema({
     slipUrl: {
         type: String,
         required:true
+    },
+    dateTime: {
+        type: String,
+        required:true
     }
+
 }, { collection: 'donate' }); // 🟢 กำหนดให้ใช้ชื่อเดียวกัน
 
 export default mongoose.model("donate", donateSchema);

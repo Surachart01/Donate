@@ -98,13 +98,16 @@ export const createDonate = async (req, res) => {
         }
 
         const slipUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-
+        const date = new Date(Date.now());
+        date.toLocaleString()
+        const dateTime = date.toLocaleString()
         const newDonate = new donate({
             igName,
             description,
             status,
             imageUrl,
-            slipUrl
+            slipUrl,
+            dateTime
         });
 
         await newDonate.save();
