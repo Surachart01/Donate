@@ -137,7 +137,7 @@ export const createDonate = async (req, res) => {
 // ✅ แก้ไขข้อมูล donate
 export const editDonate = async (req, res) => {
     try {
-        const { igName, description, status } = req.body;
+        const { igName, description, status , imageUrl , slipUrl , dateTime } = req.body;
         const { id } = req.params;
 
         // ตรวจสอบข้อมูลที่จำเป็น
@@ -155,6 +155,9 @@ export const editDonate = async (req, res) => {
         existingDonate.igName = igName;
         existingDonate.description = description;
         existingDonate.status = status || existingDonate.status; // ถ้าไม่ได้ส่ง status มาจะไม่เปลี่ยนแปลง
+        existingDonate.imageUrl = imageUrl
+        existingDonate.slipUrl = slipUrl
+        existingDonate.dateTime = dateTime
 
         // บันทึกการเปลี่ยนแปลงลงใน MongoDB
         await existingDonate.save();
