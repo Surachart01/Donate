@@ -1,8 +1,19 @@
-import React from "react";
-import { Space, Table, Tag } from "antd";
-import { Image } from 'antd';
+import React, { useEffect, useState } from "react";
+import { Space, Table, Tag, Modal } from "antd";
+import { Image , Input} from "antd";
 import { Button } from "antd";
 import Slip from "../images/015071213235BPM01495.jpeg";
+
+const showModal = () => {
+  setOpen(true);
+};
+const handleOk = () => {
+  setOpen(false);
+};
+
+const handleCancel = () => {
+  setOpen(false);
+};
 
 const columns = [
   {
@@ -23,15 +34,15 @@ const columns = [
     render: (slip) => <Image src={slip} alt="Slip" width={100} />, // Renders image
   },
   {
-    title: "Tags",
+    title: "Status",
     key: "tags",
     dataIndex: "tags",
     render: (_, { tags }) => (
       <>
         {tags.map((tag) => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-          if (tag === "loser") {
-            color = "volcano";
+          let color = tag.length > 5 ? "geekblue" : "yellow";
+          if (tag === "complete") {
+            color = "green";
           }
           return (
             <Tag color={color} key={tag}>
@@ -47,16 +58,64 @@ const columns = [
     key: "action",
     render: (_, record) => (
       <Space size="middle">
-        <Button color="cyan" variant="solid">
-            Accept
-          </Button>
-        <Button color="primary" variant="solid">
-            Edit
-          </Button>
+        <Button
+          type="primary"
+          color="cyan"
+          variant="solid"
+          onClick={() => {
+            Modal.confirm({
+              title: "Confirm",
+              content: (
+                <div>
+                  <p className="text-2xl">Name: {record.name}</p>
+                  <p className="text-2xl">Text: {record.text}</p>
+                  <Image src={record.slip} alt="Slip" width={300} />{" "}
+                  {/* ✅ Show image inside Modal */}
+                </div>
+              ), // ✅ Use 'record.name' instead of 'data.name'
+              footer: (_, { OkBtn, CancelBtn }) => (
+                <>
+                  <CancelBtn />
+                  <OkBtn />
+                </>
+              ),
+            });
+          }}
+        >
+          Accept
+        </Button>
+        <Button
+          color="primary"
+          variant="solid"
+          type="primary"
+          onClick={() => {
+            Modal.confirm({
+              title: "Edit",
+              content: (
+                <div>
+                  <div>
+                    <p className="text-2xl">Name: </p>
+                    <Input type="text" value={record.name}/>
+                  </div>
+                  <p className="text-2xl">Text: {record.text}</p>
+                  <Image src={record.slip} alt="Slip" width={300} />{" "}
+                  {/* ✅ Show image inside Modal */}
+                </div>
+              ), // ✅ Use 'record.name' instead of 'data.name'
+              footer: (_, { OkBtn, CancelBtn }) => (
+                <>
+                  <CancelBtn />
+                  <OkBtn />
+                </>
+              ),
+            });
+          }}
+        >
+          Edit
+        </Button>
         <Button color="danger" variant="solid">
-            Delete
-          </Button>
-        
+          Delete
+        </Button>
       </Space>
     ),
   },
@@ -65,28 +124,29 @@ const columns = [
 const data = [
   {
     key: "1",
-    name: "John Brown",
+    name: "toyo.pps",
     text: "ทดสอบๆนี่เสียงอะไรครับเนี่ย",
     slip: Slip, // Directly reference the imported image
-    tags: ["nice", "developer"],
+    tags: ["pending"],
   },
   {
     key: "2",
-    name: "Jim Green",
+    name: "tle_src",
     text: "หะอะไรนะครับ ผม งง อะ",
     slip: Slip,
-    tags: ["loser"],
+    tags: ["show"],
   },
   {
     key: "3",
     name: "Joe Black",
     text: "ทดสอบระบบกินตังค์หน่อยครับ",
     slip: Slip,
-    tags: ["cool", "teacher"],
+    tags: ["complete"],
   },
 ];
 
 const Admin = () => {
+  const [open, setOpen] = useState(false);
   return (
     <div className="admin-container">
       <div className="p-12">
