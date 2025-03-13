@@ -15,7 +15,11 @@ const donateSchema = new mongoose.Schema({
     },
     imageUrl: {
         type: String,
-        required: false
+        required: true,
+    },
+    slipUrl: {
+        type: String,
+        required:true
     }
 }, { collection: 'donate' }); // 🟢 กำหนดให้ใช้ชื่อเดียวกัน
 

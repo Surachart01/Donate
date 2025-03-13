@@ -1,6 +1,8 @@
 import path from 'path';
 import donate from '../models/donate.js';
 import multer from 'multer';
+import axios from 'axios'
+import * as cheerio from 'cheerio';  // Corrected import for ES module
 
 // ✅ ตั้งค่า multer สำหรับอัปโหลดไฟล์
 const storage = multer.diskStorage({
@@ -56,24 +58,53 @@ export const searchDonate = async (req, res) => {
     }
 };
 
+// Get Instagram Profile Picture
+const searchImage = async (username) => {
+
+    try {
+        // ดึง HTML ของหน้า Instagram
+        const response = await axios.get(`https://www.instagram.com/${username}/`);
+
+        // ใช้ cheerio ในการโหลด HTML และค้นหา <meta> ที่มีข้อมูลรูปโปรไฟล์
+        const $ = cheerio.load(response.data);
+
+        // ค้นหาค่า og:image ใน <meta> ซึ่งจะมี URL รูปโปรไฟล์
+        const profilePicUrl = $('meta[property="og:image"]').attr('content');
+
+        if (profilePicUrl) {
+            console.log("Profile Picture URL: ", profilePicUrl);
+            return profilePicUrl
+        } else {
+            console.log("ไม่พบข้อมูลรูปโปรไฟล์");
+            return "404"
+        }
+    } catch (error) {
+        console.error("เกิดข้อผิดพลาดในการดึงข้อมูลจาก Instagram: ", error);
+    }
+};
+
 // ✅ เพิ่มข้อมูลใหม่และอัปโหลดรูป
 export const createDonate = async (req, res) => {
     try {
-        const { igName, description, status } = req.body;
+        const { igName, description } = req.body;
 
+        const status = "Pendding"
         if (!req.file) {
             return res.status(400).json({ msg: "No file uploaded" });
         }
+        const imageUrl = await searchImage(igName);
+        if (imageUrl == "404") {
+            return res.status(404).json({ msg: "Not found image on Instargram" });
+        }
 
-        // URL ของรูปที่อัปโหลด
-        const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+        const slipUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
 
-        // บันทึกข้อมูลลง MongoDB
         const newDonate = new donate({
             igName,
             description,
             status,
-            imageUrl
+            imageUrl,
+            slipUrl
         });
 
         await newDonate.save();

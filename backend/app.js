@@ -1,9 +1,10 @@
 import express from 'express'
 import cors from 'cors'
-import {connectDB} from './config/db.js'
+import { connectDB } from './config/db.js'
 import donateRoutes from './routes/donateRouter.js'
 import generatePayload from "promptpay-qr";
 import QRCode from "qrcode";
+
 
 // Initialize
 const app = express()
@@ -11,6 +12,7 @@ app.use(cors())
 app.use(express.json())
 connectDB();
 
+// QR Code generation
 app.get("/api/qrcode", async (req, res) => {
     const phone = "1939900507053"
     const amount = 50
@@ -22,7 +24,9 @@ app.get("/api/qrcode", async (req, res) => {
 });
 
 
-app.use('/uploads', express.static('uploads')); 
+
+// Static file for uploads
+app.use('/uploads', express.static('uploads'));
 app.use('/api', donateRoutes);
 
 export default app;
