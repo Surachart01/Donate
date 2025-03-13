@@ -58,6 +58,23 @@ export const searchDonate = async (req, res) => {
     }
 };
 
+export const getDonateByStatus = async (req, res) => {
+    try {
+        const { status } = req.params; // ✅ ดึงค่า status ออกมาโดยตรง
+        
+        const data = await donate.find({ status }); // ✅ ค้นหาตามค่าที่ถูกต้อง
+
+        if (!data || data.length === 0) {
+            return res.status(404).json({ msg: "Not Found" }); // ✅ ใช้ตัวเลข 404
+        }
+
+        res.status(200).json({ msg: "Get data success", data: data }); // ✅ ใช้ตัวเลข 200
+    } catch (error) {
+        res.status(500).json({ msg: "Cannot get data.", error: error.message });
+    }
+};
+
+
 // Get Instagram Profile Picture
 const searchImage = async (username) => {
 

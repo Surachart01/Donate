@@ -18,6 +18,8 @@ export const profileIg = (username) => api.get(`/profile/${username}`);
 // Function to get all donations
 export const getAllDonates = () => api.get("/donates");
 
+export const getDonateByStatus = (status) => api.get(`/donates/status/${status}`)
+
 // Function to get a single donation by ID
 export const getDonateById = (id) => api.get(`/donates/${id}`);
 

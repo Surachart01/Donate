@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllDonate, getDonateById, searchDonate, createDonate, editDonate, deleteDonate, upload } from '../controllers/donateController.js';
+import { getAllDonate, getDonateById, searchDonate, createDonate, editDonate, deleteDonate, upload, getDonateByStatus } from '../controllers/donateController.js';
 
 const router = express.Router();
 
@@ -11,6 +11,8 @@ router.get('/donates/:id', getDonateById);
 
 // ✅ ค้นหาข้อมูล
 router.get('/donates/search', searchDonate);
+
+router.get('/donates/status/:status' , getDonateByStatus);
 
 // ✅ สร้างข้อมูลใหม่
 router.post('/donates', upload.single('image'), createDonate);
