@@ -31,20 +31,16 @@ const Screen = () => {
   };
 
   return (
-    <div className="bg-slate-950">
-      <NavBar />
-      <Flex style={{ minHeight: "100vh" }} justify="center" align="center">
-        <Form onFinish={handleSubmit}>
-        <Form.Item>
-
-          </Form.Item>
-        </Form>
-      </Flex>
+    <div className="bg-slate-950 h-screen">
+      <Flex justify="space-between" className="navbarrr py-3 px-3">
+        <p>Donate</p>
+        <a href="">ติดต่อพนักงาน</a>
+      </Flex>      
 
 
       <Flex vertical={true} className="mt-5" justify="center" align="center">
         <img src="/logoIg.webp" width={'200px'} alt="" />
-        <p className="text-xl">กรุณาใส่ข้อมูลเพื่อขึ้นจอให้กับคุณ</p>
+        <p className="text-xl text-white">กรุณาใส่ข้อมูลเพื่อขึ้นจอให้กับคุณ</p>
         <form onSubmit={handleSubmit} className="formDonate" style={{ width: "80%" }}>
           <label htmlFor="igName">ชื่อ Instagram</label>
           <div>
