@@ -31,12 +31,14 @@ const Screen = () => {
   };
 
   return (
-    <div className="bg-slate-950 contentScreen h-screen">
+    <div className="bg-slate-950">
+      <NavBar />
+      <Flex style={{ minHeight: "100vh" }} justify="center" align="center">
+        <Form onFinish={handleSubmit}>
+          <Form.Item>
 
-
-      <Flex justify="space-between" className="py-3 px-3 navbarrr" >
-        <h3 className="">Donating</h3>
-        <a href="">ติดต่อพนักงาน</a>
+          </Form.Item>
+        </Form>
       </Flex>
 
 
