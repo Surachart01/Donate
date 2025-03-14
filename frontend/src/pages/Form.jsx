@@ -4,6 +4,7 @@ import ComEdu from "../images/ComLogo.png";
 import IG from "../images/Instagram_logo_2022.svg.png";
 import { editDonate, getDonateByStatus } from "../service/api";
 import { Img } from "react-image";
+import Toyo from "../images/Toyo.jpg"
 
 const Form = () => {
   const [queue, setQueue] = useState([]);  // คิวทั้งหมด
@@ -80,11 +81,11 @@ const Form = () => {
   return (
     <div className="container-donate">
       <div className="flex justify-center">
-        <img src={ComEdu} alt="" width={700} className="mt-4" />
+        <img src={ComEdu} alt="" style={{width:"60%"}} className="mt-4" />
       </div>
-      <div className="grid grid-cols-2 gap-3 mt-4">
+      <div className="grid grid-cols-2 gap-3 mt-20">
         <div className="flex justify-end">
-          {show?.imageUrl && <Img src={show.imageUrl} alt="Image" width={800} className="rounded-xl" />}
+          {show?.imageUrl && <Img src={show.imageUrl} alt="Image" style={{width:"90%"}} className="rounded-xl" />}
         </div>
         <div>
           {show &&<img src={IG} alt="" width={130} />}
@@ -93,7 +94,7 @@ const Form = () => {
               {show?.igName || ""}
             </h1>
           </div>
-          <div className="mt-3">
+          <div className="mt-5">
             <h1 className="text-7xl text-white" style={{ fontFamily: "Prompt" }}>
               {show?.description || ""}
             </h1>
