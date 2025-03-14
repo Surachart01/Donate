@@ -85,10 +85,10 @@ const searchImage = async (username) => {
                 'Accept-Language': 'en-US,en;q=0.9',
             }
         });
-
+        console.log(response)
         const $ = cheerio.load(response.data);
         const profilePicUrl = $('meta[property="og:image"]').attr('content');
-        
+        console.log(profilePicUrl)
         if (profilePicUrl) {
             console.log("Profile Picture URL: ", profilePicUrl);
             return profilePicUrl;
