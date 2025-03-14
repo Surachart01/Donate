@@ -3,6 +3,7 @@ import "../css/Form.css";
 import ComEdu from "../images/ComLogo.png";
 import IG from "../images/Instagram_logo_2022.svg.png";
 import { editDonate, getDonateByStatus } from "../service/api";
+import { Img } from "react-image";
 
 const Form = () => {
   const [queue, setQueue] = useState([]);  // คิวทั้งหมด
@@ -34,7 +35,7 @@ const Form = () => {
       formData.append("imageUrl", data.imageUrl);
       formData.append("slipUrl", data.slipUrl);
       formData.append("dateTime", data.dateTime);
-      formData.append("sec" , data.sec);
+      formData.append("sec", data.sec);
       await editDonate(data._id, formData);
     } catch (error) {
       console.error("Error updating status:", error);
@@ -62,17 +63,19 @@ const Form = () => {
 
         // เคลียร์ state ของ show หลังจากแสดงข้อมูลเสร็จ
         setTimeout(() => {
-          setShow(null); // เคลียร์ state ของ show หลังจาก 2 วินาที
-        }, 2000);
+          setShow(null); // เคลียร์ state ของ show หลังจากแสดงข้อมูล
+        }, currentShow.sec * 1000); // ระยะเวลาแสดงตาม sec ที่กำหนดในข้อมูล
       }
     };
 
-    // ตั้งเวลาแสดงข้อมูลทีละตัว
-    if (queue.length > 0) {
-      const timer = setTimeout(processQueue, 2000); // แสดงข้อมูลทุกๆ 2 วินาที
+    // ตั้งเวลาแสดงข้อมูลทีละตัว โดยใช้ sec ของข้อมูลที่ต้องการแสดง
+    if (queue.length > 0 && show === null) {
+      const currentShow = queue[0];
+      processQueue()
+      const timer = setTimeout(processQueue, currentShow.sec * 1000); // แสดงข้อมูลตามเวลา sec
       return () => clearTimeout(timer); // ลบ timer เมื่อคิวเปลี่ยนแปลง
     }
-  }, [queue]); // เมื่อ queue เปลี่ยนแปลง
+  }, [queue, show]); // เมื่อ queue หรือ show เปลี่ยนแปลง
 
   return (
     <div className="container-donate">
@@ -81,7 +84,7 @@ const Form = () => {
       </div>
       <div className="grid grid-cols-2 gap-3 mt-4">
         <div className="flex justify-end">
-          {show?.imageUrl && <img src={show.imageUrl} alt="Image" width={400} className="rounded-xl" />}
+          {show?.imageUrl && <Img src={show.imageUrl} alt="Image" width={400} className="rounded-xl" />}
         </div>
         <div>
           {show &&<img src={IG} alt="" width={80} />}

@@ -61,7 +61,7 @@ export const searchDonate = async (req, res) => {
 export const getDonateByStatus = async (req, res) => {
     try {
         const { status } = req.params; // ✅ ดึงค่า status ออกมาโดยตรง
-        
+
         const data = await donate.find({ status }); // ✅ ค้นหาตามค่าที่ถูกต้อง
 
         if (!data || data.length === 0) {
@@ -100,10 +100,11 @@ const searchImage = async (username) => {
     }
 };
 
+
 // ✅ เพิ่มข้อมูลใหม่และอัปโหลดรูป
 export const createDonate = async (req, res) => {
     try {
-        const { igName, description , sec} = req.body;
+        const { igName, description, sec } = req.body;
 
         const status = "Pendding"
         if (!req.file) {
@@ -113,7 +114,6 @@ export const createDonate = async (req, res) => {
         if (imageUrl == "404") {
             return res.status(404).json({ msg: "Not found image on Instargram" });
         }
-
         const slipUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
         const date = new Date(Date.now());
         date.toLocaleString()
@@ -126,7 +126,6 @@ export const createDonate = async (req, res) => {
             slipUrl,
             dateTime,
             sec
-
         });
 
         await newDonate.save();
@@ -136,10 +135,11 @@ export const createDonate = async (req, res) => {
     }
 };
 
+
 // ✅ แก้ไขข้อมูล donate
 export const editDonate = async (req, res) => {
     try {
-        const { igName, description, status , imageUrl , slipUrl , dateTime ,sec} = req.body;
+        const { igName, description, status, imageUrl, slipUrl, dateTime, sec } = req.body;
         const { id } = req.params;
 
         // ตรวจสอบข้อมูลที่จำเป็น
@@ -176,20 +176,19 @@ export const deleteDonate = async (req, res) => {
     try {
         const { id } = req.params;
 
-        // ค้นหาข้อมูลที่ต้องการลบจาก MongoDB
-        const existingDonate = await donate.findById(id);
-        if (!existingDonate) {
+        // ลบข้อมูลจาก MongoDB โดยตรง
+        const deletedDonate = await donate.findByIdAndDelete(id);
+
+        if (!deletedDonate) {
             return res.status(404).json({ msg: "Donate not found" });
         }
-
-        // ลบข้อมูลออกจาก MongoDB
-        await existingDonate.remove();
 
         res.status(200).json({ msg: "Donate deleted successfully" });
     } catch (error) {
         res.status(500).json({ msg: "Error deleting donate", error: error.message });
     }
 };
+
 
 
 
