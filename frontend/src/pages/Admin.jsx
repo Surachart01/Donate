@@ -8,6 +8,7 @@ const Admin = () => {
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [editingName, setEditingName] = useState("");
   const [editingDesc, setEditingDesc] = useState("");
+  const [state , setState] = useState(false)
 
   useEffect(() => {
     if (selectedRecord) {
@@ -16,6 +17,43 @@ const Admin = () => {
     }
   }, [selectedRecord]);
 
+  const handleSubmit = async (data) => {
+console.log(data)
+    let formData = new FormData();
+    formData.append("igName", data.name);
+    formData.append("description", data.text);
+    formData.append("status", "Complete");
+    formData.append("imageUrl", data.key.image);
+    formData.append("slipUrl", data.slip);
+    formData.append("dateTime", data.key.dateTime);
+    formData.append("sec", data.key.sec);
+
+    try {
+      const res = await editDonate(data.key._id, formData);
+      console.log(res)
+      if (res.status == 200) {
+        setOpenEditModal(false);
+        fetchData();
+        notification.success({
+          message: "แก้ไขข้อมูลเสร็จสิ้น"
+        })
+      } else {
+        setOpenEditModal(false);
+        fetchData();
+        notification.error({
+          message: "เกิดข้อผิดพลาดโปรดลองใหม่อีกครั้ง"
+        })
+      }
+
+      window.location.reload()
+    } catch (error) {
+      console.error("Error updating data:", error);
+      notification.error({
+        message: "เกิดข้อผิดพลาดโปรดลองใหม่อีกครั้ง"
+      })
+      window.location.reload()
+    }
+  };
   const handleEdit = async () => {
     if (!selectedRecord) return;
 
@@ -31,22 +69,20 @@ const Admin = () => {
     try {
       const res = await editDonate(selectedRecord.key._id, formData);
       if (res.status == 200) {
-        setOpenEditModal(false);
-        fetchData();
         notification.success({
           message: "แก้ไขข้อมูลเสร็จสิ้น"
         })
       } else {
-        setOpenEditModal(false);
-        fetchData();
         notification.error({
-          message: "เสร็"
+          message: "เกิดข้อผิดพลาดโปรดลองใหม่อีกครั้ง"
         })
       }
-
-
+      window.location.reload()
     } catch (error) {
       console.error("Error updating data:", error);
+      notification.error({
+        message: "เกิดข้อผิดพลาดโปรดลองใหม่อีกครั้ง"
+      })
     }
   };
 
@@ -95,7 +131,7 @@ const Admin = () => {
             type="primary"
             style={{ backgroundColor: "green", borderColor: "green" }}
             onClick={() => {
-              Modal.info({
+              Modal.confirm({
                 title: "ตรวจสอบข้อมูล",
                 content: (
                   <div>
@@ -105,9 +141,9 @@ const Admin = () => {
                   </div>
                 ),
                 onOk: () => {
-                  // ฟังก์ชันที่ต้องการให้ทำเมื่อกด OK
-                  console.log("User confirmed");
-                  // คุณสามารถใส่คำสั่งอื่นๆ ที่ต้องการทำเมื่อกด OK ได้ที่นี่
+                  console.log(record)
+                  handleSubmit(record)
+                  
                 },
               });
             }}
@@ -183,6 +219,10 @@ const Admin = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setState(false)
+    fetchData();
+  }, [state]);
   return (
     <div className="admin-container">
       <div className="p-12">
