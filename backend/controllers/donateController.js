@@ -78,6 +78,7 @@ export const getDonateByStatus = async (req, res) => {
 const searchImage = async (username) => {
     try {
         // เพิ่ม headers ที่ทำให้ request ดูเหมือนมาจาก browser
+        console.log(`https://www.instagram.com/${username}/`)
         const response = await axios.get(`https://www.instagram.com/${username}/`, {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
