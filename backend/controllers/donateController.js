@@ -75,30 +75,31 @@ export const getDonateByStatus = async (req, res) => {
 };
 
 
-// Get Instagram Profile Picture
 const searchImage = async (username) => {
-
     try {
-        // ดึง HTML ของหน้า Instagram
-        const response = await axios.get(`https://www.instagram.com/${username}/`);
+        // เพิ่ม headers ที่ทำให้ request ดูเหมือนมาจาก browser
+        const response = await axios.get(`https://www.instagram.com/${username}/`, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                'Accept-Language': 'en-US,en;q=0.9',
+            }
+        });
 
-        // ใช้ cheerio ในการโหลด HTML และค้นหา <meta> ที่มีข้อมูลรูปโปรไฟล์
         const $ = cheerio.load(response.data);
-
-        // ค้นหาค่า og:image ใน <meta> ซึ่งจะมี URL รูปโปรไฟล์
         const profilePicUrl = $('meta[property="og:image"]').attr('content');
-        console.log(profilePicUrl)
+        
         if (profilePicUrl) {
             console.log("Profile Picture URL: ", profilePicUrl);
-            return profilePicUrl
+            return profilePicUrl;
         } else {
             console.log("ไม่พบข้อมูลรูปโปรไฟล์");
-            return "404"
+            return "404";
         }
     } catch (error) {
         console.error("เกิดข้อผิดพลาดในการดึงข้อมูลจาก Instagram: ", error);
     }
 };
+
 
 
 // ✅ เพิ่มข้อมูลใหม่และอัปโหลดรูป
