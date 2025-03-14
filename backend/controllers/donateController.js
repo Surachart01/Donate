@@ -87,7 +87,7 @@ const searchImage = async (username) => {
 
         // ค้นหาค่า og:image ใน <meta> ซึ่งจะมี URL รูปโปรไฟล์
         const profilePicUrl = $('meta[property="og:image"]').attr('content');
-
+        console.log(profilePicUrl)
         if (profilePicUrl) {
             console.log("Profile Picture URL: ", profilePicUrl);
             return profilePicUrl
