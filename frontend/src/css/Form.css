@@ -1,3 +1,7 @@
+*{
+    transition: all 0.3s ease-in-out;
+}
+
 .container-donate{
     background-image: url("../images/ComEduBG.png");
     background-size: cover; /* Ensures the image covers the entire screen */

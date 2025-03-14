@@ -24,6 +24,10 @@ const donateSchema = new mongoose.Schema({
     dateTime: {
         type: String,
         required:true
+    },
+    sec: {
+        type: String,
+        required: true
     }
 
 }, { collection: 'donate' }); // 🟢 กำหนดให้ใช้ชื่อเดียวกัน

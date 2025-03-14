@@ -11,12 +11,20 @@ const Screen = () => {
   const [qrcode, setQrcode] = useState()
   const [igName, setIgName] = useState()
   const [description, setDescription] = useState()
-  const [slip , setSlip] = useState()
+  const [sec , setSec] = useState(0);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if(sec == 0){
+      notification.error({
+        message:"โปรดเลือกราคาที่ต้องการก่อนกดยืนยัน"
+      })
+      return
+    }
     setModal(true);
-    const res = await getQrcode()
+    let amount = sec==15?'50':(sec==40)?'80':'100';
+    const res = await getQrcode(amount)
     console.log(res)
     setQrcode(res.data.qrCode);
   }
@@ -37,24 +45,23 @@ const Screen = () => {
     formData.append("igName", igName);
     formData.append("description", description);
     formData.append("image", file);
+    formData.append("sec",sec);
     
     try {
       const res = await createDonate(formData);
       // Check for the success status code (201 for created)
-      
-      if (res.status === "201") {
+      console.log(res)
+      if (res.status == "201") {
         console.log(res.status)
         notification.success({
           message: "ส่งข้อมูลเสร็จสิ้น (โปรดรอพนักงานทำการตรวจสอบและยืนยัน)"
         });
       } 
-      // Check if Instagram name is invalid (404 error)
-      else if (res.status === "404") {
+      else if (res.status == "404") {
         notification.error({
           message: "ชื่อ Instagram ไม่ถูกต้อง"
         });
       } 
-      // Handle other errors
       else {
         notification.error({
           message: "เกิดข้อผิดพลาดโปรดลองใหม่อีกครั้ง"
@@ -64,12 +71,18 @@ const Screen = () => {
     } catch (error) {
       // Handle network or unexpected errors
       console.error("Error during submission:", error);
-      notification.error({
-        message: "เกิดข้อผิดพลาดในการส่งข้อมูล โปรดลองใหม่อีกครั้ง"
-      });
+      if(error.status == "404"){
+        notification.error({
+          message: "ชื่อ Instagram ไม่ถูกต้อง"
+        });
+      }else{
+        notification.error({
+          message: "เกิดข้อผิดพลาดในการส่งข้อมูล โปรดลองใหม่อีกครั้ง"
+        });
+      }
+      
     } finally {
       setModal(false);  // Close the modal after submission
-      window.location.reload();
     }
   };
   
@@ -103,6 +116,15 @@ const Screen = () => {
           <div>
             <textarea id="description" required name="description" onChange={(e) => setDescription(e.target.value)} className="inputForm" rows={4} defaultValue={""} />
             <div id="descriptionError" className="error-message" />
+          </div>
+          <div className="">
+            <label htmlFor="">ราคา</label>
+            <select name="sec" id="" onChange={(e) => setSec(e.target.value)} required={true} className="inputForm mb-3">
+              <option value="0">โปรดเลือกราคาที่ต้องการ</option>
+              <option value="15">ขึ้นหน้าจอ 15 วินาที ราคา 50บาท</option>
+              <option value="40">ขึ้นหน้าจอ 40 วินาที ราคา 80บาท</option>
+              <option value="80">ขึ้นหน้าจอ 80 วินาที ราคา 100บาท</option>
+            </select>
           </div>
           <button type="submit" className="butt w-full">ยืนยัน</button>
         </form>

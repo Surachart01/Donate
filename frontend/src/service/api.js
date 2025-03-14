@@ -10,7 +10,7 @@ const api = axios.create({
 });
 
 // Function to get QR Code
-export const getQrcode = () => api.get("/qrcode");
+export const getQrcode = (amount) => api.get(`/qrcode/${amount}`);
 
 // Function to get Instagram profile picture
 export const profileIg = (username) => api.get(`/profile/${username}`);

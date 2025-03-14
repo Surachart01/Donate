@@ -13,9 +13,12 @@ app.use(express.json())
 connectDB();
 
 // QR Code generation
-app.get("/api/qrcode", async (req, res) => {
+app.get("/api/qrcode/:amount", async (req, res) => {
+    const {amount} = req.params
     const phone = "1939900507053"
-    const amount = 50
+    if(!amount){
+        return res.status(400).json({msg:"Please send amount"})
+    }
 
     const payload = generatePayload(phone, { amount: parseFloat(amount) || undefined });
     const qrCodeImage = await QRCode.toDataURL(payload);

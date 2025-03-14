@@ -4,59 +4,75 @@ import ComEdu from "../images/ComLogo.png";
 import IG from "../images/Instagram_logo_2022.svg.png";
 import { editDonate, getDonateByStatus } from "../service/api";
 
-// Screen Page
 const Form = () => {
-  const [queue, setQueue] = useState([]);  // เก็บข้อมูลทั้งหมด
-  const [show, setShow] = useState({});    // เก็บข้อมูลที่กำลังแสดง
-  const [currentIndex, setCurrentIndex] = useState(0); // ชี้ว่ากำลังแสดง index ไหน
+  const [queue, setQueue] = useState([]);  // คิวทั้งหมด
+  const [show, setShow] = useState(null);  // ข้อมูลที่กำลังแสดง
+  const [fetching, setFetching] = useState(false);
 
-  // ดึงข้อมูลจาก API
+  // ฟังก์ชันดึงข้อมูลจาก API
   const fetchQueue = async () => {
     try {
-      const res = await getDonateByStatus("Complate");
-      if(res.status == 200){
+      const res = await getDonateByStatus("Complete");
+      console.log(res);
+      if (res.status === 200) {
         setQueue(res.data.data);
       }
     } catch (error) {
       console.error("Error fetching queue:", error);
+    } finally {
+      setFetching(false); // ตั้งค่า fetching เป็น false เมื่อดึงข้อมูลเสร็จ
     }
   };
 
-  const updateStatus = async () => {
-    console.log(show)
-    var formData = new FormData();
-    formData.append("igName", show.igName)
-    formData.append("description", show.description)
-    formData.append("status", "Showed");
-    formData.append("imageUrl", show.imageUrl)
-    formData.append("slipUrl", show.slipUrl)
-    formData.append("dateTime", show.dateTime)
-    const res = await editDonate(show._id, formData)
-    // fetchQueue()
-  }
-
-  useEffect(() => {
-    setInterval(() => {
-      fetchQueue();
-    }, 10000)
-  }, [])
-
-  useEffect(() => {
-    console.log(queue.length)
-    if (queue.length == 0) {
-      setShow({})
+  // ฟังก์ชันอัปเดตสถานะ
+  const updateStatus = async (data) => {
+    try {
+      let formData = new FormData();
+      formData.append("igName", data.igName);
+      formData.append("description", data.description);
+      formData.append("status", "Showed");
+      formData.append("imageUrl", data.imageUrl);
+      formData.append("slipUrl", data.slipUrl);
+      formData.append("dateTime", data.dateTime);
+      formData.append("sec" , data.sec);
+      await editDonate(data._id, formData);
+    } catch (error) {
+      console.error("Error updating status:", error);
     }
-    const timer = setTimeout(() => {
-      setShow(queue[0]);
-      setQueue((prevQueue) => prevQueue.slice(1));
-    }, 5000);
+  };
 
-    return () => {
-      clearTimeout(timer)
-      updateStatus()
+  // เรียก fetchQueue ทุกๆ 5 วินาที
+  useEffect(() => {
+    fetchQueue();
+    const interval = setInterval(fetchQueue, 5000);
+
+    return () => clearInterval(interval); // ล้าง interval เมื่อคอมโพเนนต์ถูกถอดออก
+  }, []);
+
+  // จัดการการแสดงข้อมูลทีละตัวจากคิว
+  useEffect(() => {
+    const processQueue = () => {
+      if (queue.length > 0) {
+        const currentShow = queue[0];
+        setShow(currentShow); // แสดงข้อมูลใหม่
+
+        updateStatus(currentShow); // อัปเดตสถานะ
+
+        setQueue((prevQueue) => prevQueue.slice(1)); // ลบข้อมูลตัวแรกจากคิว
+
+        // เคลียร์ state ของ show หลังจากแสดงข้อมูลเสร็จ
+        setTimeout(() => {
+          setShow(null); // เคลียร์ state ของ show หลังจาก 2 วินาที
+        }, 2000);
+      }
     };
-  }, [queue]);
 
+    // ตั้งเวลาแสดงข้อมูลทีละตัว
+    if (queue.length > 0) {
+      const timer = setTimeout(processQueue, 2000); // แสดงข้อมูลทุกๆ 2 วินาที
+      return () => clearTimeout(timer); // ลบ timer เมื่อคิวเปลี่ยนแปลง
+    }
+  }, [queue]); // เมื่อ queue เปลี่ยนแปลง
 
   return (
     <div className="container-donate">
@@ -67,16 +83,16 @@ const Form = () => {
         <div className="flex justify-end">
           {show?.imageUrl && <img src={show.imageUrl} alt="Image" width={400} className="rounded-xl" />}
         </div>
-        <div className="">
-          <img src={IG} alt="" width={80} />
+        <div>
+          {show &&<img src={IG} alt="" width={80} />}
           <div className="mt-3">
             <h1 className="text-6xl text-white" style={{ fontFamily: "Outfit" }}>
-              {show?.igName && show.igName}
+              {show?.igName || ""}
             </h1>
           </div>
           <div className="mt-3">
             <h1 className="text-2xl text-white" style={{ fontFamily: "Prompt" }}>
-              {show?.description && show.description}
+              {show?.description || ""}
             </h1>
           </div>
         </div>

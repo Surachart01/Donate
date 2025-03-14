@@ -103,7 +103,7 @@ const searchImage = async (username) => {
 // ✅ เพิ่มข้อมูลใหม่และอัปโหลดรูป
 export const createDonate = async (req, res) => {
     try {
-        const { igName, description } = req.body;
+        const { igName, description , sec} = req.body;
 
         const status = "Pendding"
         if (!req.file) {
@@ -124,7 +124,9 @@ export const createDonate = async (req, res) => {
             status,
             imageUrl,
             slipUrl,
-            dateTime
+            dateTime,
+            sec
+
         });
 
         await newDonate.save();
@@ -137,11 +139,11 @@ export const createDonate = async (req, res) => {
 // ✅ แก้ไขข้อมูล donate
 export const editDonate = async (req, res) => {
     try {
-        const { igName, description, status , imageUrl , slipUrl , dateTime } = req.body;
+        const { igName, description, status , imageUrl , slipUrl , dateTime ,sec} = req.body;
         const { id } = req.params;
 
         // ตรวจสอบข้อมูลที่จำเป็น
-        if (!igName || !description) {
+        if (!igName || !description || !status || !imageUrl || !slipUrl || !dateTime || !sec) {
             return res.status(400).json({ msg: "Data incorrect" });
         }
 
@@ -158,6 +160,7 @@ export const editDonate = async (req, res) => {
         existingDonate.imageUrl = imageUrl
         existingDonate.slipUrl = slipUrl
         existingDonate.dateTime = dateTime
+        existingDonate.sec = sec
 
         // บันทึกการเปลี่ยนแปลงลงใน MongoDB
         await existingDonate.save();
