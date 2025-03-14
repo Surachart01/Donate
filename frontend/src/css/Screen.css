@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    font-family: "Kanit", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+label{
+    color: #fff;
+}
+.formDonate{
+    border-radius: 20px;
+    box-shadow: #ddff00 0px 0px 20px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.cardForm {
+    box-shadow: 0px 0px 50px #00ff6a;
+    transition: all ease-in-out 0.3s;
+}
+
+.navbarrr {
+    background-color: #008412;
+    color: #fff;
+}
+
+.butt{
+    background-color: #008412;
+    padding: 10px;
+    border-radius: 20px;
+    color: #fff;
+    width: 100%;
+}
+
+.inputForm {
+    background-color: #3a3a3a;
+    color: #fff;
+    border: 3px solid #3a3a3a;
+    padding: 8px;
+    outline: none; /* เอาเส้นขอบของ Browser ออก */
+    border-radius: 10px;
+    width: 100%;
+    transition: all ease-in-out 0.3s;
+}
+
+/* เมื่อคลิกหรือโฟกัสที่ input */
+.inputForm:focus {
+    background-color: #3a3a3a; /* คงสีพื้นหลังเดิม */
+    color: #fff; /* คงสีตัวอักษรเป็นสีขาว */
+    border-color: #a1d9a8; /* เปลี่ยนสีขอบเพื่อให้ดูโดดเด่น */
+}

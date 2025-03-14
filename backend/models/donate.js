@@ -1,19 +1,35 @@
 import mongoose from "mongoose";
 
 const donateSchema = new mongoose.Schema({
-    igName:{
+    igName: {
         type: String,
-        require: true
+        required: true
     },
-    description:{
+    description: {
         type: String,
-        require: false
+        required: false
     },
     status: {
         type: String,
-        require : true
+        required: true
+    },
+    imageUrl: {
+        type: String,
+        required: true,
+    },
+    slipUrl: {
+        type: String,
+        required:true
+    },
+    dateTime: {
+        type: String,
+        required:true
+    },
+    sec: {
+        type: String,
+        required: true
     }
-})
 
-export default mongoose.model("Donate",donateSchema)
+}, { collection: 'donate' }); // 🟢 กำหนดให้ใช้ชื่อเดียวกัน
 
+export default mongoose.model("donate", donateSchema);
