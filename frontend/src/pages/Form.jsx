@@ -79,7 +79,7 @@ const Form = () => {
 
   return (
     <div className="container-donate">
-      <div className="flex justify-center">
+      <div className="flex justify-start ms-3">
         <img src={ComEdu} alt="" width={'30%'} className="mt-1" />
       </div>
       <div className="grid grid-cols-2 gap-3 mt-2">
