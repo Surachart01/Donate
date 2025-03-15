@@ -136,8 +136,10 @@ const Screen = () => {
       </Flex>
 
       <Modal open={modal} footer={null} onCancel={() => { setModal(false) }}>
+        <p className="text-center">QrCode สำหรับชำระเงิน</p>
         <Flex vertical="true" justify="center" align="center">
           {qrcode && <img src={qrcode} alt="QR Code" />}
+          <p className="text-center">เมื่อทำการโอนเงินโปรดแนบสลิป</p>
           <Form onFinish={handleSubmitForm}>
             <Form.Item label="Upload"
               name="imageSlip"
