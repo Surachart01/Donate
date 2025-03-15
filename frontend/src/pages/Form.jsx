@@ -91,7 +91,7 @@ const Form = () => {
         <div>
           {show && <img src={IG} alt="" width={130} />}
           <div className="mt-3">
-            <h1 className="text-7xl text-white" style={{ fontFamily: "Outfit", wordWrap: "break-word" }}>
+            <h1 className="text-8xl text-white" style={{ fontFamily: "Outfit", wordWrap: "break-word" }}>
               {show?.igName || ""}
             </h1>
           </div>
