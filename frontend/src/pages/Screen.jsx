@@ -56,6 +56,7 @@ const Screen = () => {
         notification.success({
           message: "ส่งข้อมูลเสร็จสิ้น (โปรดรอพนักงานทำการตรวจสอบและยืนยัน)"
         });
+        window.location.reload()
       } 
       else if (res.status == "404") {
         notification.error({
@@ -66,6 +67,7 @@ const Screen = () => {
         notification.error({
           message: "เกิดข้อผิดพลาดโปรดลองใหม่อีกครั้ง"
         });
+        window.location.reload()
       }
   
     } catch (error) {
