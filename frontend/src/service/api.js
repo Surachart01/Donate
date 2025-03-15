@@ -1,12 +1,12 @@
 import axios from "axios";
 
 // Set up the API URL
-const API_URL = "https://e64e-202-14-164-197.ngrok-free.app/api";
+const API_URL = "https://2337-202-14-164-197.ngrok-free.app/api";
 const api = axios.create({
     baseURL: API_URL,
     headers: {
         "Content-Type": "application/json",
-        "ngrok-skip-browser-warning" : 'skip-browser-warning',
+        "ngrok-skip-browser-warning": "5387",
     },
 });
 

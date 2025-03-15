@@ -208,6 +208,7 @@ console.log(data)
         slip: data.slipUrl,
         tags: [data.status],
       }));
+      console.log(formattedData)
 
       setDataTable(formattedData);
     } catch (error) {
