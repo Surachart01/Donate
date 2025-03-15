@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../css/Form.css";
 import ComEdu from "../images/ComLogo.png";
+import QrCode from '/QrCode.jpeg'
 import IG from "../images/Instagram_logo_2022.svg.png";
 import { editDonate, getDonateByStatus } from "../service/api";
 import { Img } from "react-image";
@@ -79,22 +80,28 @@ const Form = () => {
 
   return (
     <div className="container-donate">
-      <div className="flex justify-start ms-3">
-        <img src={ComEdu} alt="" width={'30%'} className="mt-1" />
+      <div className="flex justify-between ms-3">
+        <img src={ComEdu} alt="" width={'30%'} style={{height:'auto'}} className="mt-1" />
+        {show?.imageUrl && <img src={QrCode} alt="" width={'15%'} className="mt-1 me-10 mt-10" />}
       </div>
       <div className="grid grid-cols-2 gap-3 mt-2">
         <div className="flex justify-center">
-          {show?.imageUrl && <Img src={show.imageUrl} alt="Image" width={'63%'}  className="rounded-xl me-10" />}
+          {show?.imageUrl && <Img src={show.imageUrl} alt="Image" width={'63%'} className="rounded-xl me-10" />}
         </div>
         <div>
-          {show &&<img src={IG} alt="" width={130} />}
+          {show && <img src={IG} alt="" width={130} />}
           <div className="mt-3">
-            <h1 className="text-7xl text-white" style={{ fontFamily: "Outfit" , wordWrap:"break-word" }}>
+            <h1 className="text-7xl text-white" style={{ fontFamily: "Outfit", wordWrap: "break-word" }}>
               {show?.igName || ""}
             </h1>
           </div>
+          {!show && <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center">
+            <img src={QrCode} alt="" width={'45%'} className="mt-1 ps-4 me-10 mt-10" />
+          </div>
+          }
+
           <div className="mt-3">
-            <h1 className="text-5xl text-white" style={{ fontFamily: "Prompt" , wordWrap:"break-word"}}>
+            <h1 className="text-5xl text-white" style={{ fontFamily: "Prompt", wordWrap: "break-word" }}>
               {show?.description || ""}
             </h1>
           </div>
