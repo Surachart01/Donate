@@ -80,11 +80,11 @@ const Form = () => {
   return (
     <div className="container-donate">
       <div className="flex justify-center">
-        <img src={ComEdu} alt="" width={700} className="mt-4" />
+        <img src={ComEdu} alt="" width={'35%'} className="mt-4" />
       </div>
       <div className="grid grid-cols-2 gap-3 mt-4">
         <div className="flex justify-end">
-          {show?.imageUrl && <Img src={show.imageUrl} alt="Image" width={800} className="rounded-xl" />}
+          {show?.imageUrl && <Img src={show.imageUrl} alt="Image" width={'70%'} className="rounded-xl me-10" />}
         </div>
         <div>
           {show &&<img src={IG} alt="" width={130} />}
