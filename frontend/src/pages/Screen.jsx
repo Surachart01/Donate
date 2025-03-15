@@ -102,7 +102,6 @@ const Screen = () => {
     <div className="bg-slate-950 h-screen">
       <Flex justify="space-between" className="navbarrr py-3 px-3">
         <p>Donate</p>
-        <a href="">ติดต่อพนักงาน</a>
       </Flex>      
 
       <Flex vertical={true} className="mt-5" justify="center" align="center">
