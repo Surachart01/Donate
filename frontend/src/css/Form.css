@@ -3,7 +3,7 @@
 }
 
 .container-donate{
-    background-image: url("../images/ComEduBG.png");
+    background-image: url("../../public/BG_COM.gif");
     background-size: cover; /* Ensures the image covers the entire screen */
     background-position: center; /* Centers the image */
     background-repeat: no-repeat; /* Prevents the image from repeating */
