@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Flex, Form, Input, Modal, notification, Slider, Upload } from 'antd'
+import { Button, Card, Flex, Form, Input, Modal, notification, Slider, Spin, Upload } from 'antd'
 import NavBar from "../components/NavBar";
 import '../css/Screen.css'
 import TextArea from "antd/es/input/TextArea";
@@ -12,6 +12,7 @@ const Screen = () => {
   const [igName, setIgName] = useState()
   const [description, setDescription] = useState()
   const [sec , setSec] = useState(0);
+  const [loadding , setLoadding] = useState(false);
 
 
   const handleSubmit = async (e) => {
@@ -30,7 +31,7 @@ const Screen = () => {
   }
 
   const handleSubmitForm = async (e) => {
-
+    setLoadding(true);
     const fileList = e.imageSlip; // Get the uploaded file(s)
     const file = fileList && fileList[0] ? fileList[0].originFileObj : null; // Get the first file's original object
 
@@ -84,7 +85,9 @@ const Screen = () => {
       }
       
     } finally {
+      setLoadding(false);
       setModal(false);  // Close the modal after submission
+
     }
   };
   
@@ -163,9 +166,10 @@ const Screen = () => {
               </Upload>
             </Form.Item>
             <Form.Item>
-              <button type="submit" className="butt">ยืนยัน</button>
+              <button type="submit" disabled={loadding} className="butt">ยืนยันการชำระเงิน</button>
             </Form.Item>
           </Form>
+          {loadding?<Spin style={{backgroundColor:"#fff"}} />:''}
         </Flex>
 
       </Modal>
