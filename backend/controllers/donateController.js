@@ -79,12 +79,7 @@ const searchImage = async (username) => {
     try {
         // เพิ่ม headers ที่ทำให้ request ดูเหมือนมาจาก browser
         console.log(`https://www.instagram.com/${username}/`)
-        const response = await axios.get(`https://www.instagram.com/${username}/`, {
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-                'Accept-Language': 'en-US,en;q=0.9',
-            }
-        });
+        const response = await axios.get(`https://www.instagram.com/${username}/`);
         console.log(response)
         const $ = cheerio.load(response.data);
         const profilePicUrl = $('meta[property="og:image"]').attr('content');
