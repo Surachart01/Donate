@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import {
   Space,
   Table,
@@ -14,7 +15,7 @@ import { deleteDonate, editDonate, getDonateByStatus } from "../service/api";
 import { useNavigate } from "react-router-dom";
 import AdminNavbar from "../components/AdminNavbar";
 
-const Admin = () => {
+const History = () => {
   const [dataTable, setDataTable] = useState([]);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
@@ -127,94 +128,18 @@ const Admin = () => {
       render: (_, { tags }) => (
         <>
           {tags.map((tag) => (
-            <Tag color={tag === "complete" ? "green" : "yellow"} key={tag}>
+            <Tag color={tag === "showed" ? "yellow" : "green"} key={tag}>
               {tag.toUpperCase()}
             </Tag>
           ))}
         </>
       ),
     },
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => (
-        <Space size="middle">
-          <Button
-            type="primary"
-            style={{ backgroundColor: "green", borderColor: "green" }}
-            onClick={() => {
-              Modal.confirm({
-                title: "ตรวจสอบข้อมูล",
-                content: (
-                  <div>
-                    <Image src={record.slip} alt="Slip" width={300} />
-                    <p className="text-xl">ชื่อ: {record.name}</p>
-                    <p className="text-xl">รายละเอียด: {record.text}</p>
-                  </div>
-                ),
-                onOk: () => {
-                  console.log(record);
-                  handleSubmit(record);
-                },
-              });
-            }}
-          >
-            ยืนยัน
-          </Button>
-          <Button
-            type="primary"
-            style={{ backgroundColor: "#b38902" }}
-            onClick={() => {
-              setSelectedRecord(record);
-              setOpenEditModal(true);
-            }}
-          >
-            แก้ไข
-          </Button>
-          <Button
-            type="primary"
-            style={{ backgroundColor: "red" }}
-            onClick={() => {
-              Modal.confirm({
-                title: "ลบข้อมูล",
-                content: (
-                  <div>
-                    <p>คุณต้องการลบข้อมูลนี้หรือไม่?</p>
-                    <p>
-                      <b>ชื่อ:</b> {record.name}
-                    </p>
-                    <p>
-                      <b>รายละเอียด:</b> {record.text}
-                    </p>
-                  </div>
-                ),
-                onOk: async () => {
-                  const res = await deleteDonate(record.key._id);
-                  console.log(res);
-                  if (res.status == 200) {
-                    notification.success({
-                      message: "ลบข้อมูลเสร็จสิ้น",
-                    });
-                  } else {
-                    notification.error({
-                      message: "เกิดข้อผิดพลาด",
-                    });
-                  }
-                  window.location.reload();
-                },
-              });
-            }}
-          >
-            ลบ
-          </Button>
-        </Space>
-      ),
-    },
   ];
 
   const fetchData = async () => {
     try {
-      const res = await getDonateByStatus("Pendding");
+      const res = await getDonateByStatus("Showed");
       const formattedData = (res.data?.data || []).map((data) => ({
         key: {
           _id: data._id,
@@ -264,7 +189,7 @@ const Admin = () => {
       <div className="admin-container">
         <div className="p-12">
           <div className="flex justify-center mb-5 text-3xl text-black">
-            <p>Confirmation</p>
+            <p>History</p>
           </div>
           <Table columns={columns} dataSource={dataTable} />
         </div>
@@ -300,4 +225,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default History;

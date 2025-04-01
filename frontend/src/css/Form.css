@@ -13,6 +13,7 @@
 }
 .admin-container{
     margin: 0;
-    height: 100vh;
+    min-height: 100vh; /* ความสูงที่น้อยที่สุด */
+    height: 100%; /* ความสูงที่ต้องการ */
     background-color:bisque;
 }
